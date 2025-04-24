@@ -7,7 +7,7 @@
 .globl _start
 
 _start:
-    auipc x5, 0x12345       # x5 = pc + 0x12345
+    auipc x5, 0x12345       # x5 = pc + 0x12345000
     auipc x6, 0             # x6 = pc + 0x0
 
 stop:
