@@ -4,7 +4,8 @@ SRCS_ASM = \
 	start.S
 
 SRCS_C = \
-	kernel.c
+	kernel.c \
+	uart.c \
 
 DEFS +=
 

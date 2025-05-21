@@ -4,4 +4,8 @@
 
 #define MAXNUM_CPU  8
 
+
+// uart base addr
+#define UART0 0x10000000L
+
 #endif
