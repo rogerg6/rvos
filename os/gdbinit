@@ -1,4 +1,4 @@
-set disassemble-next-line on
+layout src
 b _start
 target remote : 1234
 c

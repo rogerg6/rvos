@@ -1,11 +1,13 @@
-USE_LINK_SCRIPT = false
 
 SRCS_ASM = \
-	start.S
+	start.S \
+	mem.S \
 
 SRCS_C = \
 	kernel.c \
 	uart.c \
+	printf.c \
+	page.c \
 
 DEFS +=
 
@@ -46,10 +48,9 @@ ${OUTPUT_PATH}:
 ${ELF}: ${OBJS}
 ifeq (${USE_LINK_SCRIPT}, true)
 	${CC} -E -P -x c ${DEFS} ${CFLAGS} os.ld > ${OUTPUT_PATH}/os.ld.generated
-else
+endif
 	${CC} ${CFLAGS} ${LDFLAGS} -o ${ELF} $^
 	${OBJCOPY} -O binary ${ELF} ${BIN}
-endif
 
 ${OUTPUT_PATH}/%.o : %.c
 	${CC} ${DEFS} ${CFLAGS} -c -o $@ $<
