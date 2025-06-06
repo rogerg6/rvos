@@ -59,8 +59,13 @@ extern void page_init(void);
 extern void *page_alloc(int npages);
 extern void page_free(void *p);
 
-/**/
+/* task management */
 extern void sched_init(void);
 extern void schedule(void);
+extern int task_create(void(*task)(void));
+extern void task_yield(void);
+extern void task_delay(volatile int count);
+
+void create_tasks(void);
 
 #endif /* __OS_H__ */

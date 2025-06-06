@@ -18,6 +18,7 @@ void start_kernel(void) {
 #endif
 
     sched_init();
+    create_tasks();
     schedule();
 
     uart_puts("Never go here !\n");
