@@ -1,7 +1,7 @@
 
 #include "os.h"
 
-#define TEST 1
+#define TEST 0
 
 #if TEST
 extern void page_test(void);
@@ -17,6 +17,9 @@ void start_kernel(void) {
     page_test();
 #endif
 
+    sched_init();
+    schedule();
 
+    uart_puts("Never go here !\n");
     while (1) { }
 }
