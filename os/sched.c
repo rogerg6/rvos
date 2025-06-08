@@ -10,10 +10,6 @@ struct context ctx_task[MAX_TASKS];     // 所有task的上下文
 int current = -1;        // 当前task索引
 int nr_tasks = 0;       // task个数
 
-static void w_mscratch(reg_t x) {
-    asm volatile ("csrw mscratch, %0" : : "r"(x));
-}
-
 void sched_init(void) {
     w_mscratch(0);
 }

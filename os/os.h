@@ -4,6 +4,7 @@
 
 #include "types.h"
 #include "platform.h"
+#include "riscv.h"
 
 #include <stddef.h>
 #include <stdarg.h>
@@ -65,7 +66,9 @@ extern void schedule(void);
 extern int task_create(void(*task)(void));
 extern void task_yield(void);
 extern void task_delay(volatile int count);
+extern void create_tasks(void);
 
-void create_tasks(void);
+/* trap management */
+extern void trap_init(void);
 
 #endif /* __OS_H__ */

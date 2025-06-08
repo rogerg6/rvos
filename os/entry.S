@@ -3,6 +3,7 @@
 #define SIZE_REG 4
 
 .globl switch_to
+.globl trap_vec
 .text
 
 .macro reg_save base
@@ -69,6 +70,30 @@
 	LOAD t6,  30*SIZE_REG(\base)
 .endm
 
+.balign 4
+trap_vec:
+    ###### save current task ##########
+    csrrw t6, mscratch, t6              # t6, mscratch = mscratch, t6
+    reg_save t6
+    mv t5, t6
+    csrr t6, mscratch
+    STORE t6, 30*SIZE_REG(t5)
+	csrw mscratch, t5
+
+    ###### jump to trap handler ##########
+	csrr a0, mepc
+	csrr a1, mcause
+	call trap_handler
+	csrw mepc, a0
+
+    ###### restore current task ##########
+	csrr t6, mscratch
+	reg_restore t6
+		
+	mret
+
+
+.balign 4
 switch_to:
     csrrw t6, mscratch, t6              # t6, mscratch = mscratch, t6
     beqz t6, 1f

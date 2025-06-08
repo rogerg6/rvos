@@ -1,5 +1,6 @@
-
 *.o
 *.bin
 *.elf
 os/out
+.cache
+compile_commands.json

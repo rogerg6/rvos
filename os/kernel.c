@@ -17,6 +17,8 @@ void start_kernel(void) {
     page_test();
 #endif
 
+    trap_init();
+
     sched_init();
     create_tasks();
     schedule();

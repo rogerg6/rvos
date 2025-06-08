@@ -11,6 +11,7 @@ SRCS_C = \
 	page.c \
 	sched.c \
 	user.c \
+	trap.c \
 
 DEFS +=
 
