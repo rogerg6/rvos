@@ -45,11 +45,13 @@ struct context {
 	reg_t t6;
 };
 
+#define TEST 0
 
 /* uart */
 extern void uart_init(void);
 extern int uart_putc(char ch);
 extern void uart_puts(char *s);
+extern void uart_isr(void);
 
 /* printf */
 extern int  printf(const char* s, ...);
@@ -70,5 +72,11 @@ extern void create_tasks(void);
 
 /* trap management */
 extern void trap_init(void);
+
+/* interrpupt management */
+void plic_init(void);
+int plic_claim(void);
+void plic_complete(int irq);
+
 
 #endif /* __OS_H__ */

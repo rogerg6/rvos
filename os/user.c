@@ -7,7 +7,10 @@ void user_task0(void) {
     uart_puts("Task0 is created\n");
     while (1) {
         uart_puts("Task0: Running...\n");
+
+#if TEST
         trap_test();
+#endif
         task_delay(DELAY);
         task_yield();
     }

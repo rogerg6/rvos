@@ -6,6 +6,19 @@ void trap_init(void) {
     w_mtvec((reg_t)trap_vec);
 }
 
+void external_interrupt_handler(void) {
+    int irq = plic_claim();
+
+    if (irq == UART0_IRQ) {
+        uart_isr();
+    } else {
+        printf("Unexpected irq = %d\n", irq);
+    }
+
+    if (irq)
+        plic_complete(irq);
+}
+
 reg_t trap_handler(reg_t epc, reg_t cause) {
     reg_t return_pc = epc;
     reg_t cause_code =  cause & MCAUSE_MASK_ECODE;
@@ -13,6 +26,16 @@ reg_t trap_handler(reg_t epc, reg_t cause) {
     if (cause & MCAUSE_MASK_INTERRUPT) {
         // interrupt
         switch (cause_code) {
+        case 3:
+			uart_puts("software interrupt!\n");
+			break;
+        case 7:
+			uart_puts("timer interrupt!\n");
+			break;
+        case 11:
+			uart_puts("external interruption!\n");
+            external_interrupt_handler();
+			break;
         default:
             printf("Unknown interrput = %ld\n", cause_code);
             break;

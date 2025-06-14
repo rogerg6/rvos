@@ -12,6 +12,7 @@ SRCS_C = \
 	sched.c \
 	user.c \
 	trap.c \
+	plic.c \
 
 DEFS +=
 

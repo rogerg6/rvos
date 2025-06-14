@@ -1,7 +1,6 @@
 
 #include "os.h"
 
-#define TEST 0
 
 #if TEST
 extern void page_test(void);
@@ -18,6 +17,8 @@ void start_kernel(void) {
 #endif
 
     trap_init();
+
+    plic_init();
 
     sched_init();
     create_tasks();

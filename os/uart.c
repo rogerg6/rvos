@@ -42,6 +42,12 @@ void uart_init(void){
     // word length = 8bit
     lcr = 0;
     uart_write_reg(LCR, lcr | (3 << 0));
+
+	/*
+	 * enable receive interrupts.
+	 */
+	uint8_t ier = uart_read_reg(IER);
+	uart_write_reg(IER, ier | (1 << 0));
 }
 
 
@@ -56,4 +62,16 @@ void uart_puts(char *s)
 	while (*s) {
 		uart_putc(*s++);
 	}
+}
+
+int uart_getc(void)
+{
+	while (0 == (uart_read_reg(LSR) & LSR_RX_READY))
+		;
+	return uart_read_reg(RHR);
+}
+
+void uart_isr(void) {
+    uart_putc((char)uart_getc());
+    uart_putc('\n');
 }
