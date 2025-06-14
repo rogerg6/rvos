@@ -10,6 +10,14 @@ static inline reg_t r_tp(void) {
     return x;
 }
 
+/* which hart (core) is this? */
+static inline reg_t r_mhartid()
+{
+	reg_t x;
+	asm volatile("csrr %0, mhartid" : "=r" (x) );
+	return x;
+}
+
 static inline void w_mscratch(reg_t x) {
     asm volatile ("csrw mscratch, %0" : : "r"(x));
 }

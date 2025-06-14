@@ -20,6 +20,8 @@ void start_kernel(void) {
 
     plic_init();
 
+    timer_init();
+
     sched_init();
     create_tasks();
     schedule();

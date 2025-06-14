@@ -13,6 +13,7 @@ SRCS_C = \
 	user.c \
 	trap.c \
 	plic.c \
+	timer.c \
 
 DEFS +=
 

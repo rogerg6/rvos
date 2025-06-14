@@ -78,5 +78,9 @@ void plic_init(void);
 int plic_claim(void);
 void plic_complete(int irq);
 
+// timer interrupt
+void timer_init(void);
+void timer_handler(void);
+
 
 #endif /* __OS_H__ */
