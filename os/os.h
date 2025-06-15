@@ -82,9 +82,20 @@ void plic_init(void);
 int plic_claim(void);
 void plic_complete(int irq);
 
-// timer interrupt
+// timer
+struct timer {
+	void (*func)(void *arg);
+	void *arg;
+	uint32_t timeout_ticks;
+};
+
 void timer_init(void);
 void timer_handler(void);
+struct timer* timer_create(
+	void (*func)(void *arg),
+	void *arg,
+	uint32_t timeout_ticks);
+void timer_delete(struct timer *t);
 
 
 // lock
