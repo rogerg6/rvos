@@ -12,6 +12,9 @@ int nr_tasks = 0;       // task个数
 
 void sched_init(void) {
     w_mscratch(0);
+
+    // enable machine-mode software interrupt
+    w_mie(r_mie() | MIE_MSIE);
 }
 
 void schedule(void) {
@@ -25,8 +28,12 @@ void schedule(void) {
     switch_to(next);
 }
 
+/* trigger a machine-level software interrupt
+ * so that can yield hart and switch to another process
+ */
 void task_yield(void) {
-    schedule();
+    int id = (int)r_mhartid();
+    *(uint32_t *)CLINT_MSIP(id) = 1;
 }
 
 int task_create(void(*task)(void)) {

@@ -28,6 +28,16 @@ reg_t trap_handler(reg_t epc, reg_t cause) {
         switch (cause_code) {
         case 3:
 			uart_puts("software interrupt!\n");
+
+            /*
+			 * acknowledge the software interrupt by clearing
+    		 * the MSIP bit in mip.
+			 */
+            int id = r_mhartid();
+            *(uint32_t *)CLINT_MSIP(id) = 0;
+
+            schedule();
+
 			break;
         case 7:
 			uart_puts("timer interrupt!\n");

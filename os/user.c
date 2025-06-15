@@ -5,6 +5,7 @@ extern void trap_test(void);
 
 void user_task0(void) {
     uart_puts("Task0 is created\n");
+    task_yield();
     while (1) {
         uart_puts("Task0: Running...\n");
 
@@ -12,7 +13,6 @@ void user_task0(void) {
         trap_test();
 #endif
         task_delay(DELAY);
-        // task_yield();
     }
 }
 
@@ -21,7 +21,6 @@ void user_task1(void) {
     while (1) {
         uart_puts("Task1: Running...\n");
         task_delay(DELAY);
-        // task_yield();
     }
 }
 

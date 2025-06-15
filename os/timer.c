@@ -16,9 +16,6 @@ void timer_init(void) {
 
     // enable machine-mode timer interrupt
     w_mie(r_mie() | MIE_MTIE);
-
-    // enable machine-mode global interrupts
-    w_mstatus(r_mstatus() | MSTATUS_MIE);
 }
 
 void timer_handler(void) {

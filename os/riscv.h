@@ -14,7 +14,7 @@ static inline reg_t r_tp(void) {
 static inline reg_t r_mhartid()
 {
 	reg_t x;
-	asm volatile("csrr %0, mhartid" : "=r" (x) );
+	asm volatile("csrr %0, mhartid" : "=r"(x));
 	return x;
 }
 
