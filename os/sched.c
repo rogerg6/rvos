@@ -31,7 +31,7 @@ void task_yield(void) {
 
 int task_create(void(*task)(void)) {
     if (nr_tasks < MAX_TASKS) {
-        ctx_task[nr_tasks].ra = (reg_t)task;
+        ctx_task[nr_tasks].pc = (reg_t)task;
         ctx_task[nr_tasks].sp = (reg_t)&task_stack[nr_tasks][STACK_SIZE];
         nr_tasks++;
         return 0;

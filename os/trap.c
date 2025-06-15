@@ -44,8 +44,8 @@ reg_t trap_handler(reg_t epc, reg_t cause) {
     } else {
         // exception
         printf("Exception, cause = %ld\n", cause_code);
-        // panic("Oops! what can I do?\n");
-        return_pc += 4;
+        panic("Oops! what can I do?\n");
+        // return_pc += 4;
     }
 
     return return_pc;

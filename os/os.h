@@ -43,6 +43,9 @@ struct context {
 	reg_t t4;
 	reg_t t5;
 	reg_t t6;
+
+	// store mepc in context switch
+	reg_t pc;
 };
 
 #define TEST 0

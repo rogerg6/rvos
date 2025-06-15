@@ -75,9 +75,16 @@ trap_vec:
     ###### save current task ##########
     csrrw t6, mscratch, t6              # t6, mscratch = mscratch, t6
     reg_save t6
+
+    # 单独保存t6
     mv t5, t6
     csrr t6, mscratch
     STORE t6, 30*SIZE_REG(t5)
+
+	# 保存mepc到context
+	csrr a0, mepc
+    STORE a0, 31*SIZE_REG(t5)
+
 	csrw mscratch, t5
 
     ###### jump to trap handler ##########
@@ -95,22 +102,14 @@ trap_vec:
 
 .balign 4
 switch_to:
-    csrrw t6, mscratch, t6              # t6, mscratch = mscratch, t6
-    beqz t6, 1f
-
-    ###### save current task ##########
-    reg_save t6
-
-    # 单独保存t6
-    mv t5, t6
-    csrr t6, mscratch
-    STORE t6, 30*SIZE_REG(t5)
-1:
     ###### load next task ##########
-    # mscratch指向当前上下文
     csrw mscratch, a0
+
+	# 加载pc到mpec
+	LOAD a1,  31*SIZE_REG(a0)
+	csrw mepc, a1
 
     mv t6, a0
     reg_restore t6          # 加载下个task的sp和ra
 
-    ret                     # 跳到ra处执行
+    mret

@@ -12,7 +12,7 @@ void user_task0(void) {
         trap_test();
 #endif
         task_delay(DELAY);
-        task_yield();
+        // task_yield();
     }
 }
 
@@ -21,7 +21,7 @@ void user_task1(void) {
     while (1) {
         uart_puts("Task1: Running...\n");
         task_delay(DELAY);
-        task_yield();
+        // task_yield();
     }
 }
 

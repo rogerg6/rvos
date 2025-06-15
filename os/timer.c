@@ -24,6 +24,7 @@ void timer_init(void) {
 void timer_handler(void) {
     tick++;
     printf("tick: %d\n", tick);
-    
     timer_load(TIMER_INTERVAL);
+
+    schedule();
 }
