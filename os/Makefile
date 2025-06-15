@@ -14,6 +14,7 @@ SRCS_C = \
 	trap.c \
 	plic.c \
 	timer.c \
+	lock.c \
 
 DEFS +=
 

@@ -49,6 +49,7 @@ struct context {
 };
 
 #define TEST 0
+// #define USE_LOCK
 
 /* uart */
 extern void uart_init(void);
@@ -84,6 +85,11 @@ void plic_complete(int irq);
 // timer interrupt
 void timer_init(void);
 void timer_handler(void);
+
+
+// lock
+int spin_lock(void);
+int spin_unlock(void);
 
 
 #endif /* __OS_H__ */

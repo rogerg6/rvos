@@ -7,12 +7,24 @@ void user_task0(void) {
     uart_puts("Task0 is created\n");
     task_yield();
     while (1) {
-        uart_puts("Task0: Running...\n");
+#ifdef USE_LOCK
+        spin_lock();
 
+        uart_puts("Task 0: Begin ... \n");
+        for (int i = 0; i < 5; ++i) {
+            uart_puts("Task0: Running...\n");
+            task_delay(DELAY);
+        }
+        uart_puts("Task 0: End ... \n");
+
+        spin_unlock();
+#else
+        uart_puts("Task0: Running...\n");
 #if TEST
         trap_test();
 #endif
         task_delay(DELAY);
+#endif
     }
 }
 
