@@ -90,6 +90,7 @@ trap_vec:
     ###### jump to trap handler ##########
 	csrr a0, mepc
 	csrr a1, mcause
+	csrr a2, mscratch
 	call trap_handler
 	csrw mepc, a0
 

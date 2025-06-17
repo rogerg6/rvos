@@ -1,6 +1,7 @@
 #include "os.h"
 
 extern void trap_vec(void);
+extern void do_syscall(struct context *ctx);
 
 void trap_init(void) {
     w_mtvec((reg_t)trap_vec);
@@ -19,7 +20,7 @@ void external_interrupt_handler(void) {
         plic_complete(irq);
 }
 
-reg_t trap_handler(reg_t epc, reg_t cause) {
+reg_t trap_handler(reg_t epc, reg_t cause, struct context *ctx) {
     reg_t return_pc = epc;
     reg_t cause_code =  cause & MCAUSE_MASK_ECODE;
 
@@ -54,8 +55,18 @@ reg_t trap_handler(reg_t epc, reg_t cause) {
     } else {
         // exception
         printf("Exception, cause = %ld\n", cause_code);
-        panic("Oops! what can I do?\n");
-        // return_pc += 4;
+        switch (cause_code) {
+            case 8:
+                // syscall from user-mode
+                printf("Syscall from user-mode.\n");
+                do_syscall(ctx);
+                return_pc += 4;     // ecall会把ecall指令的地址保存到mepc
+                break;
+
+            default:
+                panic("Oops! what can I do?\n");
+                // return_pc += 4;
+        }
     }
 
     return return_pc;

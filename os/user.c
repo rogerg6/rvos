@@ -1,4 +1,5 @@
 #include "os.h"
+#include "user_api.h"
 
 #define DELAY 1000
 extern void trap_test(void);
@@ -73,8 +74,32 @@ void user_task2(void) {
     }
 }
 
+void user_task3(void) {
+    unsigned int hid;
+    uart_puts("Task2 is created\n");
+
+    /* user-mode下无法读取mhartid寄存器，所以需要
+     * 系统调用来获取
+     */
+#ifdef CONFIG_SYSCALL
+    if (gethid(&hid) < 0)
+        printf("ERR: gethid failed.\n");
+    else
+        printf("Current hart ID = %d\n", hid);
+#else
+    hid = r_mhartid();
+    printf("Current hart ID = %d\n", hid);
+#endif
+
+    while (1) {
+        uart_puts("Task3: Running...\n");
+        task_delay(DELAY);
+    }
+}
+
 void create_tasks(void) {
     // task_create(user_task0);
     task_create(user_task1);
-    task_create(user_task2);
+    // task_create(user_task2);
+    task_create(user_task3);
 }

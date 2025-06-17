@@ -15,6 +15,13 @@ _start:
     la sp, stacks + STACK_SIZE
     add sp, sp, t0
 
+
+#ifdef CONFIG_SYSCALL
+    # 在start_kernel最后会调用mret返回到用户进程，
+    # 运行第一个进程，必须是user-mode
+    li t0, 1 << 7
+
+#else
     # At the end of start_kernel, schedule() will call MRET to switch
 	# to the first task, so we parepare the mstatus here.
 	# Notice: It is best not to assume that the initial value of mstatus is
@@ -22,6 +29,7 @@ _start:
 	# Set mstatus.MPP to 3, so we still run in Machine mode after MRET.
 	# Set mstatus.MPIE to 1, so MRET will enable the interrupt.
     li t0, 3 << 11 | 1 << 7
+#endif
     csrs mstatus, t0
 
     j start_kernel

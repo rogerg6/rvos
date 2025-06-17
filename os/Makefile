@@ -1,8 +1,10 @@
+DEFS += -DCONFIG_SYSCALL
 
 SRCS_ASM = \
 	start.S \
 	mem.S \
 	entry.S \
+	usyscall.S
 
 SRCS_C = \
 	kernel.c \
@@ -15,6 +17,7 @@ SRCS_C = \
 	plic.c \
 	timer.c \
 	lock.c \
+	syscall.c
 
 DEFS +=
 
